@@ -1,0 +1,271 @@
+- Node.js is a Js runtime built on google's open source V8 Js Engine.
+- WHY AND WHEN TO USE NODE.JS
+
+  - NODE PROs
+
+    - Single threaded , based on event driven, non blocking I/O model (Input / Ouput).
+    - Perfect for building fast and scalable data intensive apps.
+    - Companies like Netflix, UBER have started using node in production.
+    - Js across the entire stack, faster and more efficient development.
+    - NPM: Huge library of open-source package available for everyone.
+    - Very active developer community.
+
+  - USE NODE.JS
+
+    - API with database behind it (Preferably NoSQL)
+    - Data streaming (think YouTube)
+    - Real-time chat application
+    - Server side web application
+
+  - Don't Use Node.Js
+    - Application with heavy server-side processing (CPU intensive). Use python, php, ruby on rails.
+
+- SYNCHRONUS VS ASYNCHRONOUS CODE (BLOCKING VS NON-BLOCKING)
+
+- Types of Dependencies
+
+  - Simple / Regular Dependencies is a tpe of code that we will include in our own code.
+  - Development Dependencies: Tools for development e.g debugger tool, our codes do not depend on them. They are only used for installation.
+
+- Slug is last part of url that contains unique strings which the file is displaying.
+
+- TCP - Transmission Control Protocol. Break up res and req into thousands of small chunks called packets before being sent. Once gotten to destination, it reassess all packets so as for thr message to ge through as soon as possible.
+
+- IP - Internet Protocol - Send and route all of the packets through the internet ensuring that all the packets gets to their destinations.
+
+- HTTP - HyperText Control Protocol - Allows clients and server to communicate with each other. Its methods are GET(Collect Data) POST(Send Data) and Put-In-Patch (modify data).
+  HTTPS - Encrypted using TLS / SSL (HTTPS).
+
+- Thread: A box where codes are executed in the computers processors. Node.Js runs in just a single thread which makes it easy to block node applications.
+
+- Single Thread - This is a sequence of instruction. When programmes is initialized, all top level codes are executed which requires a module to register event callbacks. After which the event loop starts. The Event loop is the heart of the node architecture. It is where the codes are executed.
+
+-Thread Pool- Gives us full additional thread that are completely separate from the main single threads.
+
+- Can be configured into 128 threads.
+- It offload work for the event loop. - It handles heavy (expensive tasks).
+
+- Event Loops - (The heart of Node.Js Architecture). All application code in call back functions are executed.
+
+  - Some get offloaded to the thread pool.
+  - Receives event each time something important happens.
+  - It does the orchestration (Receievs events, calls their callback functions and offloading the expensive (heavy) tasks behind the scenes).
+
+PHASES IN THE EVENT LOOP (Callback Queue)
+
+    - Expired timer callbacks
+    - I/O Polling and callbacks
+    - SetImmediate callbacks
+    - Close callbacks
+
+- Polling - Looking for I/O events ready to be processed and putting them in the callback queue.
+- SetImmediate - Special timer used to process callbacks immediately after I/O execution phases. Gets executed once per tick.
+- Process.nextick - Gets executed immediately.
+
+DONT BLOCK EVENT LOOP - Tips:
+
+- Don't use sync versions of functions e.g, fs, crypto and zlib modules in your callback functions.
+- Don't perform complex calculations, e.g, loops inside loops.
+- Be careful with JSON in large objects.
+- Don't use too regular expressions, e.g. nested quantifiers.
+
+- Event Emitters - Emits main events as soon as something important happens in the app e.g file finishing to read.
+
+Event Emitter (Emits Events ) ------- Event Listener (Calls) ------ Attached callback functions
+
+- Streams - Used to process (read and write) data piece by piece (chunks), without completing the whole read or write operation, and therefore without keeping all the data in memory, e.g Netflix, YouTbube. Instances of the EventEmitter class (all streams can listen to emits)
+
+  - Perfect for handling large volumes of data, for example, videos.
+  - More efficient data processing in terms of memory (no need to keep all data in memory) and time (we don't have to wait until all the data is available)
+
+TYPES;
+
+- Readble Streams✅
+- Writeable Streams✅
+- Duplex Streams
+- Transform Streams
+
+  - Readable Streams - Streams from which we can read (consume) data. [Example - http requests, fs read streams. Imp Events - (data, end) Functions - pipe() and read()]
+
+  -Writeable Streams - Streams from which we can write data. [Example - http response, fs write streams. Imp Events - (drain, finish) Functions - write(), end()]
+
+  - Duplex Streams - Streams that are both readable and writeable. Example, net web socket.
+  - Transform Streams - Duplex streams that transform data as it is written or read. Example, zlib Gzip creation.
+
+- WHAT HAPPENS WHEN WE REQUIRE A MODULE?
+  - Resolving & Loading ---- Wrapping ---- Execution --- Returning Exports ----- Caching.
+- PATH RESOLVING & LOADING: HOW NODE DECIDES WHICH MODULE TO LOAD
+  - Start with core modules.
+  - If begins with ./ or ../ try to load developer module.
+  - If no file found, try to find folder with index.js.
+  - Else, go to node_modules/ and try to find module there.
+
+-EXPORTING FILES / MODULES
+
+- Use module.exports to export one single variable, e.g one class or one function (module.export = Calculator).
+- Use exports to export multiple named variables (exports.add = function(a, b) {
+  a + b
+  }).
+
+- EXPRESS: A minimal node js framework, a higher level of abstraction.
+
+  - It contains a very robust set of features and responses, middlewarre, serve-side rendering, etc.
+  - Allows rapid development of node js app. We don't have to invent the wheel.
+
+- ------ Postman: API TESTING!! ------------
+
+- API - Application Programming Interface is a piece of software that can be used by another piece of software, in order to allow applications to talk to each other.
+- REST - Representational State Transfer - A way of building web API's in a logical way making them easy to consume.
+
+- How to consume API'S - Process of using API - Building RESFUL API PRINCIPLES:
+
+  - Separate API into logical resources - Resources are objects or representation of something, which has data associated to it. Any information that can be named can be a resource e.g, tours, users, reviews.
+
+  - Expose structured resources based URLS - /addNewsTour(Endpoint). Endpoint should only contain our resources (nouns) and not the actions that can be performed on them so as not to become a nightmare to maintain.
+
+  - For reading, use HTTP methods(verbs) -
+  - Send data as JSON (usually) - JSON - A very lighweight data interchange format used by web API's coded in any programming language
+
+  - Be stateless - Restful stateless API - All states is handled on the client and not the server. The server should not have to remember previous requests.
+    - State is the data in the app that might change over time. e.g, loggedIn, currentPage
+
+Request-Response-Cycle - All middelware i=used in our app is called MiddleWear stack
+
+- Param MiddleWare - Middle ware that runs for certain parameters.
+
+--- MONGODB---
+
+- MongoDB is a document database with the scalability and flexibility that you want with the querying and indexing that you need.
+
+- MongoDB Compass is a powerful GUI for querying, aggregating, and analyzing your MongoDB data in a visual environment.
+
+- Compass is free to use and source available, and can be run on macOS, Windows, and Linux.
+
+---FEATURES----
+
+- Document based: Stores data in documents.
+- Scalable: Easy to distribute data across multiple machines.
+- Flexible: No document data schema required, i.e, each doc can have different number and types of fields.
+- Performant: Embedded data models, indexing, sharding, flexible docs, native duplications, etc.
+- Free and open source db published under the SSL License.
+
+- BSON: Data format MongoDB uses data storage like JSON but typed so mongodb docs are typed. Max size = 16MB and each doc contains unique id that act as the primary key of that doc.
+
+- Embedding / Denormalizing: Inculding related data with a single doc. This allows for quicker access and easier models (It's not always the best solution though).
+
+- Creating new command = db.tours.insertMany() [Many db] and insertOne()
+
+- Creating new db = use name of db: Use is to switch and also to create new db
+
+- Show db = show dbs
+
+- Find inserted db = db.tours.find()
+
+- db.tours.find( {name: "The Forest Tour"})
+
+- db.tours.insertOne({ name: "The Forest Tour", price: 297, rating: 4.7 })
+
+- db.tours.insertMany([{name: "The Sea Explorer", price: 497, rating: 4.8}, {name: "The Snow Adventure", price: 997, rating: 4.9, difficulty: "Easy"}])
+
+- db.tours.updateOne( {name: "The Snow Adventure"}, {$set: {price: 1000 } } )
+
+- db.tours.updateMany( { price: { $gt: 500}, rating: {$gte: 4.8}}, { $set: { premium: true}})
+
+- db.tours.find({price: {$lte: 500}}) [ $lte means <=] [$lt = <], [$gte means >=] [$gt = >]
+
+---- MONGOOSE ----
+
+- Mongoose is an Object Data Modelling (ODM) library for mongodb and Node.js, a higher level of abstraction. It allows for rapid and simple development og mongoDB database interactions.
+
+--- FEATURES----
+
+    - Schemas in model data and relationship, easy datavalidation, simple query API, middleware, e.t.c.
+
+- Mongoose Schema: where we model our data by describing the structure of the data, default values and validation.
+  SCHEMA ----- MODEL
+
+- Models is a blueprint to create documents.. It is more like classes in js to create objects.
+- Mongoose model is used to create the CRUD operations.
+
+---- MODEL VIEW CONTROLLER (MVC) ARCHITECTURE -----
+
+- MODEL: Business Logic
+
+- CONTROLLER: Application Logic- Handle App rew, interact with modules and send back res to clients
+
+- VIEW: Presentation Logic- Building server side websites / necessary if we have graphic interface of the site. It is more like the client side page.
+
+--- APPLICATION vs BUSINESS LOGIC
+
+- APPLICATION LOGIG - All code tthat is concered about the app implemetation, not underlying business problems we are trying to solve (e.g; showing or selling tours).
+
+  - The app logic makes the ap actually work.
+  - A big part of app logic in express is to manage req and res.
+  - Bridge between model and view layers.
+
+- BUSINESS LOGIC - Code that actually solves the business problems we set out to solve.
+
+  - It is directly related to business rules, how the business works and the business needs.
+  - Examples; Creating new tours, checking for passwords, validation, Ensuring only usrs who bought the tours can use it.
+
+- MONGOOSE MIDDLEWARE = PRE AND POST HOOKS
+
+  - DOCUMENT - ACT ON CURRENTLY PROCESSED MIDDLEWARE. Uses 'save' hook. RUNS BEFORE .save() and .create() -- Not on .insertMany()
+  - QUERY - RUN FUNCTIONS BEFORE OR AFTER QUERY IS EXECUTED. Uses 'find' hook.
+  - AGGREGATE - ADD HOOKS BEFORE AND AFTER AN AGGREGATION HAPPENS. Uses 'aggregate' hook.
+  - MODEL
+
+- DATA VALIDATION: Basicallly checking if the entered values is in the right format for the entered value in each schema and also if that values have been entered for all the required fields.
+  - Types: required, maxlength and minlenght
+- Sanitation- To see if the entered data are clean.
+
+- NDB - Node Debugger
+
+- OPERATIONAL ERRORS: Problems that can be predicted to happen at some point, so we just need to handle them in advance. They are easy to catch unlike the programming errors.
+
+- PROGRAMMING ERRORS: Bugs that dev introduce to our codes. Difficult to find and handle. **Self created errors**
+
+- TYPES OF MONGOOSE CREATED ERRORS
+
+  - Trying invalid ID (Cast Error Type)
+  - Trying to create duplicate collections (Mongo Error)
+  - Validators error
+
+- UNCAUGHT EXCEPTIONS - ALL bugs that are in our synchronous code but are not handled anywhere!
+
+- INSTANCE METHOD -Method avail on all doc of a certain collection.
+
+///MODELLING
+
+- DATA MODDELING - Process of taking unstructured data generated by real world scenario and structure it in a logical data model.
+
+- Types of Rel Between Data - one to one, one to many and many to many.
+- Refrencing vs Embedding - Refrenced (Normalized form) - Keep the data set and the document separated
+- Embedding(De-Normalized form)
+
+- When to Embed and When to Refrence -
+
+  - Relationship Type - How two databases are related to each other
+  - Data Access Patterns - How often data is read and written. Read/write ratio
+  - Data Closeness - How much the data is related. How we want to query.
+
+    - Embedding - (rel)1 Few, 1 Many, (Access) Data is mostly read, Data does not change quickly, High read/write ratio (movies + images), (Closeness) Datasets really being together (user + email addresses).
+
+    - Refrence - (rel)1 Many, 1 Few, 1 Ton, (Access) Data us updated a lot, Low read/write ratio (Movies + Reviews), (Closeness) We frequently need to query both datasets on their own [movies + images].
+
+- TYPES OF REFERENCING
+
+  - Child Referencing - Not Ideal. Used for 1 to few docs
+  - Parent Refrencing - Each child doc have a ref to the parent el. The parent knows nothing bout children. It can be beneficial. Used for 1 to many and 1 to a Ton.
+  - Two way Refrencing - Many to Many. Keep ref of movies actor plays in and movies associated to the actors.
+
+- SUMMARY
+- 1:MANY or 1:TON is a good reason to REFRENCE
+- 1:FEW or 1:MANY is a good reason to EMBED.
+- Favor REFRENCE when data is updated a lot and if you need to frequently access dataset on its own.
+- Use EMBEDDING when data is mostly read but rarely updated and when two dataseets belong intrinsincally together.
+- Use CHILD REF for 1:MANY rel
+- use PARENT REF for 1:TON rel
+- use TWO WAY REF for MANY:MANY rel
+
+- GEOSPATIAL DATA - Data that describes places on earth using latitude and longitute. 
