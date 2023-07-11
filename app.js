@@ -18,6 +18,7 @@ const tourRouter = require('./Routes/tourRoute');
 const userRouter = require('./Routes/userRoute');
 const reviewRouter = require('./Routes/reviewRoute');
 const viewRouter = require('./Routes/viewRoute');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -45,10 +46,9 @@ const limiter = rateLimit({
 });
 
 app.use('/api', limiter);
-
 // Body parser, reading data from the body into req.body
 app.use(express.json({ limit: '10kb' }));
-
+app.use(cookieParser());
 // Data Sanitization against NOSQL query injection
 app.use(monogSanitize());
 
