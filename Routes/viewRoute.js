@@ -1,10 +1,12 @@
 const express = require('express');
-const viewController = require('../controllers/viewsController');
+const viewsController = require('../controllers/viewsController');
+const authController = require('../controllers/authController');
 
 const CSP = 'Content-Security-Policy';
 const POLICY =
-  "default-src 'self' https://*.mapbox.com ;" +
-  "base-uri 'self';block-all-mixed-content;" +
+  // "default-src 'self' https://*.mapbox.com;" +
+  // "connect-src 'self' http://127.0.0.1:3000/api/v1/users/login;" +
+  "base-uri 'self';block-all-mixed-content ;" +
   "font-src 'self' https: data:;" +
   "frame-ancestors 'self';" +
   "img-src http://localhost:3000 'self' blob: data:;" +
@@ -12,7 +14,7 @@ const POLICY =
   "script-src https: cdn.jsdelivr.net cdnjs.cloudflare.com api.mapbox.com 'self' blob: ;" +
   "script-src-attr 'none';" +
   "style-src 'self' https: 'unsafe-inline';" +
-  'upgrade-insecure-requests;';
+  'upgrade-insecure-requests';
 
 const router = express.Router();
 
@@ -21,12 +23,13 @@ router.use((req, res, next) => {
   next();
 });
 
-// const router = express.Router();
-
 // Rendering Page From The Browser
 
-router.get('/', viewController.getOverview);
+router.use(authController.isLoggedIn);
 
-router.get('/tour/:slug', viewController.getTour);
+router.get('/', viewsController.getOverview);
+router.get('/tour/:slug', viewsController.getTour);
+
+router.get('/login', viewsController.getLoginForm);
 
 module.exports = router;

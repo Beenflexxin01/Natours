@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 
 // HANDLING UNCAUGHT EXCEPTIONS - ALL bugs that are in our synchronous code but are not handled anywhere!
 process.on('uncaughtException', function (err) {
-  console.log(err.name, err.message);
+  console.log(err.message);
   console.log('UNCAUGHT EXCEPTION 💥 Shutting down NOW....');
 
   process.exit(1);

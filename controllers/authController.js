@@ -77,7 +77,10 @@ exports.protect = catchAsync(async function (req, res, next) {
     req.headers.authorization.startsWith('Bearer')
   ) {
     token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
   }
+
   if (!token) {
     return next(
       new AppError('You are not logged in! Please log in to get access', 401)
@@ -110,7 +113,41 @@ exports.protect = catchAsync(async function (req, res, next) {
   next();
 });
 
-// Auth and Permissions allowing juts the role to delete
+// Only for rendered pages and there will be no errors.
+exports.isLoggedIn = catchAsync(async function (req, res, next) {
+  // Get Token and check if it exists
+  if (req.cookies.jwt) {
+    try {
+      // Validate the token
+      const decoded = await promisify(jwt.verify)(
+        req.cookies.jwt,
+        process.env.JWT_SECRET
+      );
+
+      // Check if user still exists
+      const currentUser = await User.findById(decoded.id);
+      if (!currentUser) {
+        return next();
+      }
+
+      // Check if user changed password after the token was issued
+      //iat = issued at
+      if (currentUser.changedPasswordAfter(decoded.iat)) {
+        return next();
+      }
+
+      // THERE IS A LOGGED IN USER
+      res.locals.user = currentUser;
+      return next();
+    } catch (err) {
+      return next();
+    }
+  }
+
+  next();
+});
+
+// Auth and Permissions allowing just the role to delete
 exports.restrictTo = function (...role) {
   return function (req, res, next) {
     // Roles [admin, lead-guide], role=user

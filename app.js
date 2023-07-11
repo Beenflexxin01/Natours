@@ -4,6 +4,7 @@ const express = require('express');
 // After installing morgan dependencies using npm install morgan
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const cors = require('cors');
 const helmet = require('helmet');
 const monogSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
@@ -28,6 +29,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // GLOBAL MIDDLEWARES
 // Set security HTTP headers
 app.use(helmet());
+
+app.use(cors());
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
