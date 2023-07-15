@@ -2,13 +2,14 @@
   "name": "natours",
   "version": "1.0.0",
   "description": "Learning node.js and mongodb",
-  "main": "app.js",
+  "source": "public/Js/index.js",
+  "main": "public/Js/bundle.js",
   "scripts": {
     "start": "nodemon server.js",
     "start:prod": "NODE_ENV=production nodemon server.js",
     "debug": "ndb server.js",
-    "watch:js": "esbuild ./public/js/index.js --out-file bundle.js",
-    "build:js": "esbuild ./public/js/index.js --out-file bundle.js"
+    "test": "jest --watchAll --verboose",
+    "watch": "parcel watch"
   },
   "author": "Adenola Omotayo",
   "license": "ISC",

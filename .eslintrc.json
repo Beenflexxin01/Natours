@@ -1,4 +1,8 @@
+// parserOptions: {
+//   "sourceType: "module"
+// },
 {
+  "parserOptions": { "sourceType": "module" },
   "extends": ["airbnb", "prettier", "plugin:node/recommended"],
   "plugins": ["prettier"],
   "rules": {

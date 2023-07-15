@@ -25,10 +25,10 @@ router.use((req, res, next) => {
 
 // Rendering Page From The Browser
 
-router.use(authController.isLoggedIn);
+// router.use(authController.isLoggedIn);
 
 router.get('/', viewsController.getOverview);
-router.get('/tour/:slug', viewsController.getTour);
+router.get('/tour/:slug', authController.isLoggedIn, viewsController.getTour);
 
 router.get('/login', viewsController.getLoginForm);
 
