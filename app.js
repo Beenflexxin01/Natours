@@ -48,7 +48,13 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 // Body parser, reading data from the body into req.body
 app.use(express.json({ limit: '10kb' }));
+
+// Making the traditional way of updating the user data work as expected.
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+
+// Related to making the cookie work
 app.use(cookieParser());
+
 // Data Sanitization against NOSQL query injection
 app.use(monogSanitize());
 

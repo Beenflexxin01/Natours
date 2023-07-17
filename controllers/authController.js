@@ -69,10 +69,11 @@ exports.login = catchAsync(async function (req, res, next) {
 });
 
 exports.logout = function (req, res) {
-  res.cookie('jwt', 'Logged out', {
-    expires: new Date(Date.now() + 10 + 1000),
-    httpOnly: true,
-  });
+  res.clearCookie('jwt');
+  // res.cookie('jwt', 'Logged out', {
+  //   expires: new Date(Date.now() + 10 + 1000),
+  //   httpOnly: true,
+  // });
   res.status(200).json({ status: 'success' });
 };
 
@@ -90,12 +91,10 @@ exports.protect = catchAsync(async function (req, res, next) {
   }
 
   if (!token) {
-    if (req.originalUrl.startsWith('/me')) {
-      return res.redirect('/');
-    }
-    return next(
-      new AppError('You are not logged in! Please log in to get access', 401)
-    );
+    // return next(
+    //   new AppError('You are not logged in! Please log in to get access', 401)
+    // );
+    return res.redirect('/');
   }
   // Validate the token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
@@ -188,7 +187,8 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     'host'
   )}/api/v1/users/resetPassword/${resetToken}`;
 
-  const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
+  const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: 
+  ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
   try {
     await sendEmail({
       email: user.email,

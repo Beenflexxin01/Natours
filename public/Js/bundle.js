@@ -2187,10 +2187,29 @@
     }
   };
 
+  // public/js/updateSettings.js
+  var updateSettings = async function(data, type) {
+    try {
+      const url = type === "password" ? "http://127.0.0.1:3000/api/v1/users/updateMyPassword" : "http://127.0.0.1:3000/api/v1/users/updateMe";
+      const result = await axios_default({
+        method: "PATCH",
+        url,
+        data
+      });
+      if (result.data.status = "success") {
+        showAlert("success", `${type.toUpperCase()} updated successfully`);
+      }
+    } catch (err) {
+      showAlert("error", err.response.data.message);
+    }
+  };
+
   // public/js/index.js
   var mapbox = document.getElementById("map");
-  var loginForm = document.querySelector(".form");
+  var loginForm = document.querySelector(".form--login");
   var logOutBtn = document.querySelector(".nav__el--logout");
+  var userBtn = document.querySelector(".form-user-data");
+  var userPasswordForm = document.querySelector(".form-user-settings");
   if (mapbox) {
     const locations = JSON.parse(mapbox.dataset.locations);
     displayMap(locations);
@@ -2204,4 +2223,27 @@
     });
   if (logOutBtn)
     logOutBtn.addEventListener("click", logout);
+  if (userBtn)
+    userBtn.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      updateSettings({ name, email }, "data");
+    });
+  if (userPasswordForm)
+    userPasswordForm.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      document.querySelector(".btn--save-password").textContent = "updating...";
+      const passwordCurrent = document.getElementById("password-current").value;
+      const password = document.getElementById("password").value;
+      const passwordConfrim = document.getElementById("password-confirm").value;
+      await updateSettings(
+        { passwordCurrent, password, passwordConfrim },
+        "password"
+      );
+      document.querySelector(".btn--save-password").textContent = "Save Password";
+      document.getElementById("password-current").value = "";
+      document.getElementById("password").value = "";
+      document.getElementById("password-confirm").value = "";
+    });
 })();

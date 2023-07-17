@@ -1,6 +1,6 @@
 const Tour = require('../models/tourModels');
 const AppError = require('../utils/appError');
-
+const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getOverview = catchAsync(async function (req, res, next) {
@@ -44,3 +44,23 @@ exports.getAccount = function (req, res) {
     title: 'Your Account',
   });
 };
+
+// Traditional method of updating user data.
+exports.updateUserData = catchAsync(async function (req, res, next) {
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      name: req.body.name,
+      email: req.body.email,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(200).render('account', {
+    title: 'Your Account',
+    user: updatedUser,
+  });
+});
