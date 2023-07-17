@@ -68,6 +68,14 @@ exports.login = catchAsync(async function (req, res, next) {
   creaeteSendToken(user, 200, res);
 });
 
+exports.logout = function (req, res) {
+  res.cookie('jwt', 'Logged out', {
+    expires: new Date(Date.now() + 10 + 1000),
+    httpOnly: true,
+  });
+  res.status(200).json({ status: 'success' });
+};
+
 // PROTECTING THE MIDDLEWARE
 exports.protect = catchAsync(async function (req, res, next) {
   // Get Token and check if it exists
@@ -82,6 +90,9 @@ exports.protect = catchAsync(async function (req, res, next) {
   }
 
   if (!token) {
+    if (req.originalUrl.startsWith('/me')) {
+      return res.redirect('/');
+    }
     return next(
       new AppError('You are not logged in! Please log in to get access', 401)
     );
@@ -110,11 +121,12 @@ exports.protect = catchAsync(async function (req, res, next) {
 
   // Grant access to protected routes!
   req.user = currentUser;
+  res.local = currentUser;
   next();
 });
 
 // Only for rendered pages and there will be no errors.
-exports.isLoggedIn = catchAsync(async function (req, res, next) {
+exports.isLoggedIn = async function (req, res, next) {
   // Get Token and check if it exists
   if (req.cookies.jwt) {
     try {
@@ -143,9 +155,8 @@ exports.isLoggedIn = catchAsync(async function (req, res, next) {
       return next();
     }
   }
-
   next();
-});
+};
 
 // Auth and Permissions allowing just the role to delete
 exports.restrictTo = function (...role) {

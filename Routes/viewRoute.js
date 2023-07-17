@@ -5,7 +5,7 @@ const authController = require('../controllers/authController');
 const CSP = 'Content-Security-Policy';
 const POLICY =
   // "default-src 'self' https://*.mapbox.com;" +
-  // "connect-src 'self' http://127.0.0.1:3000/api/v1/users/login;" +
+  "connect-src 'self' http://127.0.0.1:3000/api/v1/users/login;" +
   "base-uri 'self';block-all-mixed-content ;" +
   "font-src 'self' https: data:;" +
   "frame-ancestors 'self';" +
@@ -24,12 +24,11 @@ router.use((req, res, next) => {
 });
 
 // Rendering Page From The Browser
-
-// router.use(authController.isLoggedIn);
+router.use(authController.isLoggedIn);
 
 router.get('/', viewsController.getOverview);
-router.get('/tour/:slug', authController.isLoggedIn, viewsController.getTour);
-
+router.get('/tour/:slug', viewsController.getTour);
 router.get('/login', viewsController.getLoginForm);
+router.get('/me', authController.protect, viewsController.getAccount);
 
 module.exports = router;

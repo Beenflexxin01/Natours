@@ -30,31 +30,58 @@ const handleJWTExpiredError = function () {
   return new AppError('Your token has expired! Please login again.', 401);
 };
 
-const sendErrorDev = function (err, res) {
-  res.status(err.statusCode).json({
-    status: err.status,
-    error: err,
-    message: err.message,
-    stack: err.stack,
+const sendErrorDev = function (err, req, res) {
+  // API
+  if (req.originalUrl.startsWith('/api')) {
+    return res.status(err.statusCode).json({
+      status: err.status,
+      error: err,
+      message: err.message,
+      stack: err.stack,
+    });
+  }
+  // RENDERED MESSAGE
+  console.error('ERROR 😐😐', err);
+  return res.status(err.statusCode).render('error', {
+    title: 'Something went wrong!!!!!',
+    msg: err.message,
   });
 };
 
-const sendErrorProduction = function (err, res) {
+const sendErrorProduction = function (err, req, res) {
   // TESTED OPERATIONAL ERRORS: send message to ciient
-  if (err.isOperational) {
-    res.status(err.statusCode).json({
-      status: err.status,
-      message: err.message,
-    });
+  if (req.originalUrl.startsWith('/api')) {
+    if (err.isOperational) {
+      return res.status(err.statusCode).json({
+        status: err.status,
+        message: err.message,
+      });
+    }
+    // RENDER WEBSITE
     // PROGRAMMING OF OTHER UNKNOWN ERROR: Don't leak details to client
-  } else {
     // log the error
     console.error('ERROR 😐😐', err);
     // send a generic message
-    res
+    return res
       .status(500)
       .json({ status: 'error', message: 'Something went wrong!❌' });
   }
+
+  if (err.isOperational) {
+    return res.status(err.statusCode).render('error', {
+      title: 'Something went wrong!!!!!',
+      msg: err.message,
+    });
+  }
+  // RENDER WEBSITE
+  // PROGRAMMING OF OTHER UNKNOWN ERROR: Don't leak details to client
+  // log the error
+  console.error('ERROR 😐😐', err);
+  // send a generic message
+  return res.status(err.statusCode).render('error', {
+    title: 'Something went wrong!!!!!',
+    msg: 'Please try again later',
+  });
 };
 
 module.exports = function (err, req, res, next) {
@@ -62,9 +89,11 @@ module.exports = function (err, req, res, next) {
   err.status = err.status || 'error';
 
   if (process.env.NODE_ENV === 'development') {
-    sendErrorDev(err, res);
+    sendErrorDev(err, req, res);
   } else if (process.env.NODE_ENV === 'production') {
     let error = Object.assign(err);
+    error.message = err.message;
+
     if (error.name === 'CastError') error = handlecastErrorDb(error);
     // DUPLICATE ERROR
     if (error.code === 11000) error = handleDuplicateCodeDB(error);
@@ -75,6 +104,6 @@ module.exports = function (err, req, res, next) {
     // XPIRED TOKEN ERROR
     if (error.name === 'TokenExpiredError')
       error = handleJWTExpiredError(error);
-    sendErrorProduction(error, res);
+    sendErrorProduction(error, req, res);
   }
 };

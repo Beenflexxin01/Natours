@@ -1,11 +1,12 @@
 /* eslint-disable */
 // import '@babel/polyfill';
-import { displayMap } from './mapBox';
-import { login } from './login';
+import { displayMap } from './mapbox.js';
+import { login, logout } from './login';
 
 // DOM EL
 const mapbox = document.getElementById('map');
 const loginForm = document.querySelector('.form');
+const logOutBtn = document.querySelector('.nav__el--logout');
 
 // Delegation
 if (mapbox) {
@@ -21,3 +22,5 @@ if (loginForm)
     const password = document.getElementById('password').value;
     login(email, password);
   });
+
+if (logOutBtn) logOutBtn.addEventListener('click', logout);
