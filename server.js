@@ -25,6 +25,7 @@ mongoose
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
+    useUnifiedTopology: true,
   })
   .then(function () {
     console.log('DB connection successful😁😁');
@@ -44,5 +45,3 @@ process.on('unhandledRejection', function (err) {
     process.exit(1);
   });
 });
-
-// console.log(x);

@@ -2208,7 +2208,7 @@
   var mapbox = document.getElementById("map");
   var loginForm = document.querySelector(".form--login");
   var logOutBtn = document.querySelector(".nav__el--logout");
-  var userBtn = document.querySelector(".form-user-data");
+  var userDataForm = document.querySelector(".form-user-data");
   var userPasswordForm = document.querySelector(".form-user-settings");
   if (mapbox) {
     const locations = JSON.parse(mapbox.dataset.locations);
@@ -2223,12 +2223,14 @@
     });
   if (logOutBtn)
     logOutBtn.addEventListener("click", logout);
-  if (userBtn)
-    userBtn.addEventListener("submit", function(e) {
+  if (userDataForm)
+    userDataForm.addEventListener("submit", function(e) {
       e.preventDefault();
-      const name = document.getElementById("name").value;
-      const email = document.getElementById("email").value;
-      updateSettings({ name, email }, "data");
+      const form = new FormData();
+      form.append("name", document.getElementById("name").value);
+      form.append("email", document.getElementById("email").value);
+      form.append("photo", document.getElementById("photo").files[0]);
+      updateSettings(form, "data");
     });
   if (userPasswordForm)
     userPasswordForm.addEventListener("submit", async function(e) {
