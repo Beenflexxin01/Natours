@@ -183,10 +183,10 @@ tourSchema.pre(/^find/, function (next) {
   next();
 });
 
-tourSchema.post(/^find/, function (docs, next) {
-  console.log(`Query took ${Date.now() - this.start} in milliseconds `);
-  next();
-});
+// tourSchema.post(/^find/, function (docs, next) {
+//   console.log(`Query took ${Date.now() - this.start} in milliseconds `);
+//   next();
+// });
 
 // AGGREGATION MIDDLEWARE- ADD HOOKS BEFORE AND AFTER AN AGGREGATION HAPPENS
 // tourSchema.pre('aggregate', function (next) {
