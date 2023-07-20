@@ -18,6 +18,7 @@ const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./Routes/tourRoute');
 const userRouter = require('./Routes/userRoute');
 const reviewRouter = require('./Routes/reviewRoute');
+const bookingsRouter = require('./Routes/bookingsRoute');
 const viewRouter = require('./Routes/viewRoute');
 
 const app = express();
@@ -86,6 +87,7 @@ app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/bookings', bookingsRouter);
 
 // IMPLEMENTING ROUTE HANDLER MIDDLEWARE
 app.all('*', function (req, res, next) {
