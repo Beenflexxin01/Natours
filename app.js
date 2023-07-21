@@ -24,7 +24,7 @@ const viewRouter = require('./Routes/viewRoute');
 
 const app = express();
 
-app.enable('trust proxy')
+app.enable('trust proxy');
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
@@ -36,6 +36,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet.crossOriginEmbedderPolicy({ policy: 'credentialless' }));
 
 app.use(cors());
+// Access-Control-Allow-Origin: *
+
+// Allow all options
+app.options('*', cors());
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
