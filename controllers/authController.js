@@ -12,7 +12,7 @@ const signToken = function (id) {
   });
 };
 
-const createSendToken = function (user, statusCode, req, res) {
+const createSendToken = function (user, statusCode, res) {
   const token = signToken(user._id);
 
   // res.cookie('jwt', token, {
@@ -55,7 +55,7 @@ exports.signUp = catchAsync(async function (req, res, next) {
   const url = `${req.protocol}://${req.get('host')}/me`;
   console.log(url);
   await new Email(newUser, url).sendWelcome();
-  createSendToken(newUser, 201, req, res);
+  createSendToken(newUser, 201, res);
 });
 
 // Logging In Users
@@ -77,7 +77,7 @@ exports.login = catchAsync(async function (req, res, next) {
   }
 
   // CHECK IF EVERYTHING IS ALRIGHT, SEND THE JSON WEB TOKEN BACK TO THE CLIENT
-  createSendToken(user, 200, req, res);
+  createSendToken(user, 200, res);
 });
 
 exports.logout = function (req, res) {
@@ -242,7 +242,7 @@ exports.resetPassword = catchAsync(async function (req, res, next) {
 
   // Update changePassword property for the user
   // Log the user in, send JWT
-  createSendToken(user, 200, req, res);
+  createSendToken(user, 200, res);
 });
 
 exports.updatePassword = catchAsync(async function (req, res, next) {
@@ -260,5 +260,5 @@ exports.updatePassword = catchAsync(async function (req, res, next) {
 
   await user.save();
   // Log the user in, send JWT back to the user
-  createSendToken(user, 200, req, res);
+  createSendToken(user, 200, res);
 });
