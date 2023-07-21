@@ -35,3 +35,7 @@ export const logout = async function () {
     showAlert('error', 'Error logging out, try again!');
   }
 };
+
+
+//  "watch": "parcel watch ./public/Js/index.js --dist-dir ./public/Js/bundle",
+// "build": "parcel build ./public/Js/index.js --dist-dir ./public/Js/bundle"
