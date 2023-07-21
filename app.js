@@ -25,7 +25,7 @@ const viewRouter = require('./Routes/viewRoute');
 
 const app = express();
 
-app.enable('trust proxy');
+// app.enable('trust proxy');
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
@@ -40,7 +40,7 @@ app.use(cors());
 // Access-Control-Allow-Origin: *
 
 // Allow all options
-app.options('*', cors());
+// app.options('*', cors());
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
