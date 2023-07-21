@@ -1,6 +1,9 @@
 {
   "name": "natours",
   "version": "1.0.0",
+  "'engines": {
+    "node": ">=18.14.2"
+  },
   "description": "Learning node.js and mongodb",
   "main": "app.js",
   "scripts": {
