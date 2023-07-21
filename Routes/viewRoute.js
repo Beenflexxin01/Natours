@@ -33,7 +33,7 @@ router.use(authController.isLoggedIn);
 
 router.get(
   '/',
-  bookingsController.createBookingCheckout,
+  bookingsController.webhookCheckout,
   viewsController.getOverview
 );
 router.get('/tour/:slug', viewsController.getTour);
