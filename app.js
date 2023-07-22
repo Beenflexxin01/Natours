@@ -25,6 +25,8 @@ const viewRouter = require('./Routes/viewRoute');
 
 const app = express();
 
+app.enable('trust proxy');
+
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -54,8 +56,6 @@ const limiter = rateLimit({
 });
 
 app.use('/api', limiter);
-
-app.enable('trust proxy', 1);
 
 // Stripe Webhook
 app.post(
