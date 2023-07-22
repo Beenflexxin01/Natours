@@ -27,7 +27,9 @@ exports.getCheckoutSession = catchAsync(async function (req, res, next) {
           product_data: {
             name: `${tour.name} Tour`,
             images: [
-              `${req.protocol}://${req.get('host')}/my-tours${tour.imageCover}`,
+              `${req.protocol}://${req.get('host')}/img/tours/${
+                tour.imageCover
+              }`,
             ],
             description: tour.summary,
           },
@@ -54,8 +56,8 @@ exports.getCheckoutSession = catchAsync(async function (req, res, next) {
 const createBookingCheckout = async function (session) {
   const tour = session.client_reference_id;
   const user = (await User.findOne({ email: session.customer_details.email }))
-    .id;
-  const price = session.line_items[0].amount / 100;
+    ._id;
+  const price = session.line_items[0].amount_total / 100;
   await Bookings.create({ tour, user, price });
 };
 
