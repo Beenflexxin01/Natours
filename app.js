@@ -32,13 +32,14 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 // GLOBAL MIDDLEWARES
 // Set security HTTP headers
-app.use(helmet.crossOriginEmbedderPolicy({ policy: 'credentialless' }));
 
 app.use(cors());
 // Access-Control-Allow-Origin: *
 
 // Allow all options
 app.options('*', cors());
+
+app.use(helmet.crossOriginEmbedderPolicy({ policy: 'credentialless' }));
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
