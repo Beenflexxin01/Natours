@@ -46,9 +46,9 @@ process.on('unhandledRejection', function (err) {
   });
 });
 
-// process.on('SIGTERM', function () {
-//   console.log('🤗 SIGTERM RECEOVED, Shutting down gracefully');
-//   server.close(function () {
-//     console.log('🔥 Process Terminated');
-//   });
-// });
+process.on('SIGTERM', function () {
+  console.log('🤗 SIGTERM RECEIVED, Shutting down gracefully');
+  server.close(function () {
+    console.log('🔥 Process Terminated');
+  });
+});

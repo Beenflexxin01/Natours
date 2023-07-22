@@ -25,8 +25,7 @@ const viewRouter = require('./Routes/viewRoute');
 
 const app = express();
 
-// app.enable('trust proxy');
-// app.set('trust proxy', true);
+app.enable('trust proxy');
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -52,7 +51,6 @@ const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000,
   message: 'Too many requests from this IP. Please try again in an hour',
-  trustProxy: true,
 });
 
 app.use('/api', limiter);
