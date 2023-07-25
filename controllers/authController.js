@@ -22,7 +22,9 @@ const createSendToken = function (user, statusCode, req, res) {
     httpOnly: true,
     secure:
       req.secure ||
-      req.headers[('X-Forwarded-Proto', 'X-Forwarded-For')] === 'https',
+      req.headers[
+        ('X-Forwarded-Proto', 'X-Forwarded-For', 'X-Forwarded-Host')
+      ] === 'https',
   });
 
   // // DEFININIG COOKIES
