@@ -20,11 +20,9 @@ const createSendToken = function (user, statusCode, req, res) {
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
-    secure:
-      req.secure ||
-      req.headers[
-        ('X-Forwarded-Proto', 'X-Forwarded-For', 'X-Forwarded-Host')
-      ] === 'https',
+    // secure: req.secure || req.headers['X-Forwarded-Proto'] === 'https',
+    secure: true,
+    sameSite: 'none',
   });
 
   // // DEFININIG COOKIES
