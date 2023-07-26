@@ -7,7 +7,7 @@ const AppError = require('../utils/appError');
 const Email = require('../utils/email');
 
 const signToken = function (id) {
-  return jwt.sign({ id: id }, process.env.JWT_SECRET, {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
