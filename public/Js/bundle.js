@@ -1886,7 +1886,7 @@
     }
   });
 
-  // public/js/mapbox.js
+  // public/Js/mapbox.js
   var displayMap = function(locations) {
     mapboxgl.accessToken = "pk.eyJ1IjoicmVzdGxlc3Mtcm9ib3QyNCIsImEiOiJjbGp1MnYybjYwMnJjM2RxemhhNWNkaDduIn0.9x90sba1_d6TE8H7_8Jg3Q";
     var map = new mapboxgl.Map({
@@ -4026,7 +4026,7 @@
     mergeConfig: mergeConfig2
   } = axios_default;
 
-  // public/js/alerts.js
+  // public/Js/alerts.js
   var hideAlert = () => {
     const el = document.querySelector(".alert");
     if (el)
@@ -4039,7 +4039,7 @@
     window.setTimeout(hideAlert, time * 1e3);
   };
 
-  // public/js/login.js
+  // public/Js/login.js
   var login = async (email, password) => {
     try {
       const res = await axios_default({
@@ -4073,7 +4073,7 @@
     }
   };
 
-  // public/js/updateSettings.js
+  // public/Js/updateSettings.js
   var updateSettings = async function(data, type) {
     try {
       const url = type === "password" ? "/api/v1/users/updateMyPassword" : "/api/v1/users/updateMe";
@@ -7937,22 +7937,22 @@
   var Stripe = createStripe(new WebPlatformFunctions());
   var stripe_esm_worker_default = Stripe;
 
-  // public/js/stripe.js
+  // public/Js/stripe.js
   var stripe = stripe_esm_worker_default(
     "pk_test_51NVgroG6YvrqYWiWlqvNllGDi3fQfLlEn44mSl9rb4GHcnAJ0DnfPtCulrWgrje8Ubu0KIxph9nwR21hStFzrIt700nZZRGQsP"
   );
   var bookTour = async function(tourId) {
     try {
-      const session = await axios_default(
-        `/api/v1/bookings/checkout-session/${tourId}`
-      );
-      window.location.assign(session.data.session.url);
+      const session = await axios_default(`/api/v1/bookings/checkout-session/${tourId}`);
+      await stripe.redirectToCheckout({
+        sessionId: session.data.session.id
+      });
     } catch (err) {
       showAlert("error", err);
     }
   };
 
-  // public/js/index.js
+  // public/Js/index.js
   var mapbox = document.getElementById("map");
   var loginForm = document.querySelector(".form--login");
   var logOutBtn = document.querySelector(".nav__el--logout");

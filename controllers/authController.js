@@ -15,26 +15,26 @@ const signToken = function (id) {
 const createSendToken = function (user, statusCode, req, res) {
   const token = signToken(user._id);
 
-  res.cookie('jwt', token, {
-    expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-    ),
-    httpOnly: true,
-    // secure: req.secure || req.headers['X-Forwarded-Proto'] === 'https',
-    secure: true,
-    sameSite: 'none',
-  });
-
-  // // DEFININIG COOKIES
-  // const cookieOptions = {
+  // res.cookie('jwt', token, {
   //   expires: new Date(
   //     Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
   //   ),
   //   httpOnly: true,
-  // };
-  // if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+  //   // secure: req.secure || req.headers['X-Forwarded-Proto'] === 'https',
+  //   secure: true,
+  //   sameSite: 'none',
+  // });
 
-  // res.cookie('jwt', token, cookieOptions);
+  // // DEFININIG COOKIES
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+  };
+  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+
+  res.cookie('jwt', token, cookieOptions);
 
   user.password = undefined;
 

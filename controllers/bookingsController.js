@@ -27,6 +27,7 @@ exports.getCheckoutSession = catchAsync(async function (req, res, next) {
           product_data: {
             name: `${tour.name} Tour`,
             images: [
+              
               `${req.protocol}://${req.get('host')}/img/tours/${
                 tour.imageCover
               }`,
@@ -42,7 +43,7 @@ exports.getCheckoutSession = catchAsync(async function (req, res, next) {
   res.status(200).json({ status: 'success', session });
 });
 
-// exports.createBookingCheckout = catchAsync(async function (req, res, next) {
+// const createBookingCheckout = async function (req, res, next) {
 //   // Temporary because it is not secure as everyone can make bookings without paying
 //   const { tour, user, price } = req.query;
 
@@ -51,7 +52,7 @@ exports.getCheckoutSession = catchAsync(async function (req, res, next) {
 //   await Bookings.create({ tour, user, price });
 
 //   res.redirect(req.originalUrl.split('?')[0]);
-// });
+// };
 
 const createBookingCheckout = async function (session) {
   const tour = session.client_reference_id;
