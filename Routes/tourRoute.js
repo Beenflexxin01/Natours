@@ -6,13 +6,6 @@ const reviewRouter = require('./reviewRoute');
 
 const router = express.Router();
 
-// router
-//   .route('/:tourId/reviews')
-//   .post(
-//     authController.protect,
-//     authController.restrictTo('user'),
-//     reviewController.createReviews
-//   );
 router.use('/:tourId/reviews', reviewRouter);
 // PARAM MIDDLEWARE FUNCTION
 // router.param('id', tourController.checkId);

@@ -79,7 +79,7 @@ app.use(cookieParser());
 app.use(monogSanitize());
 
 // Data Sanitization against XSS (cross site scripting)
-app.use(xss());
+// app.use(xss());
 
 // Prevent parameter pollution.
 app.use(
