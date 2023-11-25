@@ -7,7 +7,7 @@ const rateLimit = require('express-rate-limit');
 const cors = require('cors');
 const helmet = require('helmet');
 const monogSanitize = require('express-mongo-sanitize');
-// const xss = require('xss-clean');
+const xss = require('xss-clean');
 const hpp = require('hpp');
 
 const cookieParser = require('cookie-parser');
@@ -79,7 +79,7 @@ app.use(cookieParser());
 app.use(monogSanitize());
 
 // Data Sanitization against XSS (cross site scripting)
-// app.use(xss());
+app.use(xss());
 
 // Prevent parameter pollution.
 app.use(
